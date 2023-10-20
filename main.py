@@ -1,8 +1,14 @@
 from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
 listaPets = []
+
+class Pet(BaseModel):
+    name: str
+    age: int
+
 
 @app.get("/")
 def root():
@@ -13,9 +19,9 @@ def root():
 def list_pets():
     return listaPets
 
-@app.get("/pets/add")
-def create_pet():
+@app.post("/pets/add")
+def create_pet(pet):
     listaPets.append({
-    "name": "Jobson",
-    "age": 2
+    "name": pet.name,
+    "age": pet.age
 })
